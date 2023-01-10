@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b2a733e9789f3841b5f8caec5b87988, type: 3}
+  m_Name: Data
+  m_EditorClassIdentifier: 
+  prefabName: 
+  playerTowerPositionsForRoundOne:
+  - {x: 0, y: 0, z: -6.363961}
+  - {x: 6.363961, y: 0, z: 0}
+  - {x: 0, y: 0, z: 6.363962}
+  - {x: -6.363961, y: 0, z: 0}
+  playerTowerRotationsForRoundOne:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 270, z: 0}
+  - {x: 0, y: 180, z: 0}
+  - {x: 0, y: 90, z: 0}
+  playerTowerPositionsForRoundTwo:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  playerTowerRotationsForRoundTwo:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  playerTowerPositionsForRoundThree:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  playerTowerRotationsForRoundThree:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  playerTowerPositionsForRoundFour:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  playerTowerRotationsForRoundFour:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  usedPositions:
+  - {x: 0, y: 0, z: -6.363961}
+  - {x: 6.363961, y: 0, z: 0}
+  - {x: 0, y: 0, z: 6.363962}
+  - {x: -6.363961, y: 0, z: 0}
+  usedRotations:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 270, z: 0}
+  - {x: 0, y: 180, z: 0}
+  - {x: 0, y: 90, z: 0}
+  playerColors:
+  - {fileID: 2100000, guid: 84d27f6a1fa201c448c6dbc44bc55adf, type: 2}
+  - {fileID: 2100000, guid: ad5774eba3c974c4da54022be87bf233, type: 2}
+  - {fileID: 2100000, guid: 0ddd501d616adbb4f927b8d9454dc077, type: 2}
+  - {fileID: 2100000, guid: 3b600b2236ab8f1499b2df469c604bb2, type: 2}
+  usedColors:
+  - {fileID: 2100000, guid: 3b600b2236ab8f1499b2df469c604bb2, type: 2}
