@@ -9,66 +9,116 @@ using UnityEngine.UI;
 
 public class LoginSceneController : MonoBehaviour
 {
-    [Header("Selecting Join Type Variable / Set Nickname field")] public TMP_InputField nicknameController;
-    [Space(10)] public Button createRoom, joinRoom;
     
-    
-    [Header("Create Room Variables")] 
-    public TMP_InputField roomNameController;
-    [Space(10)]public TextMeshProUGUI playButtonText;
-    [Space(10)]public Button startServerButton;
+        [SerializeField] private NetworkRunner _networkRunnerPrefab = null;
+        [SerializeField] private PlayerData _playerDataPrefab = null;
 
-    private string buttonText = "!Ready";
-    private string buttonPlayText = "Ready";
+        [SerializeField] private TMP_InputField _nickName = null;
 
-    private bool isCreatingRoom,isJoiningRoom;
-    
-    private int checkFieldLength;
-    private void Start()
-    {
-        startServerButton.interactable = false;
-        createRoom.interactable = false;
-        joinRoom.interactable = false;
-    }
+        // The Placeholder Text is not accessible through the TMP_InputField component so need a direct reference
+        [SerializeField] private TextMeshProUGUI _nickNamePlaceholder = null;
 
-    private void Update()
-    {
-        if (startServerButton.interactable)
+        [SerializeField] private TMP_InputField _roomName = null;
+        [SerializeField] private string _gameSceneName = null;
+
+        private NetworkRunner _runnerInstance = null;
+
+        public Button startGameButton;
+
+        public Toggle toggleToCreateRoom, toggleToJoinRoom;
+
+        private void Start()
         {
-            if (Input.GetKeyDown(KeyCode.Return))
+            toggleToCreateRoom.interactable = false;
+            toggleToJoinRoom.interactable = true;
+        }
+
+        private void Update()
+        {
+            if (_nickName.text.Length >= 3 && _roomName.text.Length >= 3)
             {
-                // StartGame();
+                startGameButton.interactable = true;
             }
         }
-    }
 
-    private void OnEnable()
-    {
-        nicknameController.onValueChanged.AddListener(delegate { InputFieldValueCheck(); });
-        // startServerButton.onClick.AddListener(delegate { StartGame(); });
-    }
-
-    private void StartGame(bool client)
-    {
-        if (client)
-            GameManager.Instance.StartGame(GameMode.Host);
-        else
+        public void SetToHost()
         {
-            GameManager.Instance.StartGame(GameMode.Client);
+            toggleToCreateRoom.interactable = false;
+            toggleToJoinRoom.interactable = true;
         }
-    }
+        
+        public void SetToClient()
+        {
+            toggleToCreateRoom.interactable = true;
+            toggleToJoinRoom.interactable = false;
+        }
+        
+        public void StartGame()
+        {
+            if (toggleToCreateRoom.isOn && !toggleToJoinRoom.isOn)
+            {
+                StartHost();
+            }
+            else if (!toggleToCreateRoom.isOn && toggleToJoinRoom.isOn)
+            {
+                StartClient();
+            }
+        }
+
+        // Attempts to start a new game session 
+        public void StartHost()
+        {
+            SetPlayerData();
+            StartGame(GameMode.AutoHostOrClient, _roomName.text, _gameSceneName);
+        }
+
+        public void StartClient()
+        {
+            SetPlayerData();
+            StartGame(GameMode.Client, _roomName.text, _gameSceneName);
+        }
+
+        private void SetPlayerData()
+        {
+            var playerData = FindObjectOfType<PlayerData>();
+            if (playerData == null)
+            {
+                playerData = Instantiate(_playerDataPrefab);
+            }
+            
+            if (string.IsNullOrWhiteSpace(_nickName.text))
+            {
+                playerData.SetNickName(_nickNamePlaceholder.text);
+            }
+            else
+            {
+                playerData.SetNickName(_nickName.text);
+            }
+        }
+
+        private async void StartGame(GameMode mode, string roomName, string sceneName)
+        {
+            _runnerInstance = FindObjectOfType<NetworkRunner>();
+            if (_runnerInstance == null)
+            {
+                _runnerInstance = Instantiate(_networkRunnerPrefab);
+            }
+
+            // Let the Fusion Runner know that we will be providing user input
+            _runnerInstance.ProvideInput = true;
+
+            var startGameArgs = new StartGameArgs()
+            {
+                GameMode = mode,
+                SessionName = roomName,
+                ObjectPool = _runnerInstance.GetComponent<NetworkObjectPoolDefault>(),
+            };
+
+            // GameMode.Host = Start a session with a specific name
+            // GameMode.Client = Join a session with a specific name
+            await _runnerInstance.StartGame(startGameArgs);
+
+            _runnerInstance.SetActiveScene(sceneName);
+        }
     
-    private void InputFieldValueCheck()
-    {
-        if (checkFieldLength >= 3)
-        {
-            playButtonText.text = buttonPlayText;
-            startServerButton.interactable = true;
-        }
-        else
-        {
-            playButtonText.text = buttonText;
-            startServerButton.interactable = false;
-        }
-    }
 }
